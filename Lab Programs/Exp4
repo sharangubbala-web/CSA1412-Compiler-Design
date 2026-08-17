@@ -1,0 +1,35 @@
+%{
+#include <stdio.h>
+int nc = 0;
+%}
+
+%%
+
+"/*"[a-zA-Z0-9\n\t ]*"*/"    { nc++; }
+"//"[a-zA-Z0-9\t ]*"\n"       { nc++; }
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main(int argc, char *argv[])
+{
+    yyin = fopen(argv[1], "r");
+
+    if (yyin == NULL)
+    {
+        printf("File cannot be opened\n");
+        return 1;
+    }
+
+    yylex();
+
+    printf("The number of comment lines = %d\n", nc);
+
+    fclose(yyin);
+
+    return 0;
+}
