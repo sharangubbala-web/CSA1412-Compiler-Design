@@ -1,0 +1,24 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+"//".*      { printf("%s is COMMENT\n", yytext); }
+
+.+          { printf("%s is NOT A COMMENT\n", yytext); }
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    printf("Enter the input: ");
+    yylex();
+
+    return 0;
+}
